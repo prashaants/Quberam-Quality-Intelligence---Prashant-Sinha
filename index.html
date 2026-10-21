@@ -1,0 +1,552 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Quberam Release Center</title>
+<style>
+/* Layout: sticky top nav + tabbed single-page dashboard; content capped at 1180px and centered */
+:root{
+  --bg:#F7F6F2; --surface:#FFFFFF; --surface-2:#F0EEE6; --border:#E3E0D4;
+  --text:#12182B; --text-muted:#5B6472; --text-faint:#8A8F98;
+  --accent:#0E9488; --accent-soft:#E3F5F2; --accent-ink:#066359;
+  --c-plan:#2D6FB0; --c-plan-soft:#E7F0FA;
+  --c-exec:#0E9488; --c-exec-soft:#E3F5F2;
+  --c-govern:#B4791F; --c-govern-soft:#FBF0DD;
+  --c-decide:#7A52B0; --c-decide-soft:#F1E9FA;
+  --good:#1C9A6C; --good-soft:#E3F6EC;
+  --warn:#C98A1D; --warn-soft:#FBF0DD;
+  --crit:#C94A3D; --crit-soft:#FBE7E4;
+  --shadow:0 1px 2px rgba(18,24,43,0.05), 0 8px 24px rgba(18,24,43,0.06);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0D1220; --surface:#161C2E; --surface-2:#1C2338; --border:#2B3350;
+    --text:#F2F4F8; --text-muted:#A9B2C3; --text-faint:#747E92;
+    --accent:#2DD4BF; --accent-soft:#113A35; --accent-ink:#8DEDE1;
+    --c-plan:#6FA8DC; --c-plan-soft:#182A40;
+    --c-exec:#2DD4BF; --c-exec-soft:#10302C;
+    --c-govern:#E8B04D; --c-govern-soft:#352711;
+    --c-decide:#B892E8; --c-decide-soft:#2A2040;
+    --good:#3FCB8E; --good-soft:#102C22;
+    --warn:#E8B04D; --warn-soft:#352711;
+    --crit:#E8705F; --crit-soft:#391714;
+    --shadow:0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0D1220; --surface:#161C2E; --surface-2:#1C2338; --border:#2B3350;
+  --text:#F2F4F8; --text-muted:#A9B2C3; --text-faint:#747E92;
+  --accent:#2DD4BF; --accent-soft:#113A35; --accent-ink:#8DEDE1;
+  --c-plan:#6FA8DC; --c-plan-soft:#182A40;
+  --c-exec:#2DD4BF; --c-exec-soft:#10302C;
+  --c-govern:#E8B04D; --c-govern-soft:#352711;
+  --c-decide:#B892E8; --c-decide-soft:#2A2040;
+  --good:#3FCB8E; --good-soft:#102C22;
+  --warn:#E8B04D; --warn-soft:#352711;
+  --crit:#E8705F; --crit-soft:#391714;
+  --shadow:0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',Arial,sans-serif;margin:0;padding:0 20px;padding-block:0}
+h1,h2,h3{font-family:'Space Grotesk',Georgia,sans-serif;font-weight:600;margin:0;text-wrap:balance}
+p{margin:0}
+.wrap{max-width:1180px;margin:0 auto}
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding-top:max(18px,env(safe-area-inset-top,0px));padding-bottom:14px;border-bottom:1px solid var(--border);z-index:10}
+.topbar-inner{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:28px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-family:'Space Grotesk',Georgia,sans-serif;font-weight:700;font-size:19px;white-space:nowrap}
+.brand .dot{width:10px;height:10px;border-radius:50%;background:var(--accent)}
+.tabs{display:flex;gap:4px;flex-wrap:wrap}
+.tab{font:inherit;font-size:14.5px;font-weight:500;color:var(--text-muted);background:none;border:none;padding:9px 14px;border-radius:8px;cursor:pointer}
+.tab:hover{background:var(--surface-2);color:var(--text)}
+.tab[aria-selected="true"]{background:var(--accent-soft);color:var(--accent-ink)}
+.tab:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.spacer{flex:1}
+.pill-live{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--text-muted);background:var(--surface);border:1px solid var(--border);padding:6px 12px;border-radius:999px}
+.pill-live .dot{width:7px;height:7px;border-radius:50%;background:var(--good)}
+main{padding:28px 0 64px}
+section[role="tabpanel"][hidden]{display:none}
+.eyebrow{font-size:12.5px;letter-spacing:1.6px;text-transform:uppercase;color:var(--accent-ink);font-weight:600;margin-bottom:6px}
+.page-title{font-size:30px;margin-bottom:4px}
+.page-sub{color:var(--text-muted);font-size:15px;max-width:640px;line-height:1.5;margin-bottom:28px}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 22px;box-shadow:var(--shadow)}
+.kpi .label{font-size:13px;color:var(--text-muted)}
+.kpi .value{font-family:'Space Grotesk',Georgia,sans-serif;font-size:32px;font-weight:700;margin-top:6px;font-variant-numeric:tabular-nums}
+.kpi .value.good{color:var(--good)}
+.grid-2{display:grid;grid-template-columns:1.1fr 1.4fr;gap:20px;align-items:start}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;box-shadow:var(--shadow)}
+.card h3{font-size:17px;margin-bottom:16px}
+.donut-row{display:flex;align-items:center;gap:22px}
+.donut-figures{display:flex;flex-direction:column;gap:10px}
+.legend-item{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--text-muted)}
+.legend-swatch{width:11px;height:11px;border-radius:3px;flex:none}
+.bar-rows{display:flex;flex-direction:column;gap:14px}
+.bar-row .top{display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:6px;color:var(--text-muted)}
+.bar-track{background:var(--surface-2);border-radius:6px;height:12px;overflow:hidden}
+.bar-fill{height:100%;border-radius:6px}
+.release-list{display:flex;flex-direction:column;gap:0}
+.release-row{display:flex;align-items:center;gap:14px;padding:13px 0;border-bottom:1px solid var(--border)}
+.release-row:last-child{border-bottom:none}
+.release-name{font-weight:500;font-size:14.5px;flex:1;min-width:0}
+.release-note{font-size:13px;color:var(--text-faint)}
+.badge{font-size:12.5px;font-weight:600;padding:5px 11px;border-radius:999px;white-space:nowrap}
+.badge.go{background:var(--good-soft);color:var(--good)}
+.badge.cond{background:var(--warn-soft);color:var(--warn)}
+.badge.nogo{background:var(--crit-soft);color:var(--crit)}
+.agent-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.agent-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:10px;cursor:pointer;box-shadow:var(--shadow);transition:transform .12s ease}
+.agent-card:hover{transform:translateY(-2px)}
+.agent-card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.cluster-chip{display:inline-flex;align-self:flex-start;font-size:11.5px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;padding:4px 9px;border-radius:999px}
+.agent-card h4{font-size:16px;font-weight:600;margin:0}
+.agent-desc{font-size:13.5px;color:var(--text-muted);line-height:1.5;flex:1}
+.agent-meta{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--text-faint)}
+.status-dot{display:inline-flex;align-items:center;gap:6px}
+.status-dot .dot{width:7px;height:7px;border-radius:50%;background:var(--good)}
+.gn-controls{display:flex;align-items:center;gap:14px;margin-bottom:22px;flex-wrap:wrap}
+.gn-controls label{font-size:13.5px;color:var(--text-muted)}
+select{font:inherit;font-size:14.5px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:9px;padding:9px 12px}
+.verdict-panel{display:grid;grid-template-columns:320px 1fr;gap:28px;align-items:stretch}
+.verdict-box{border-radius:16px;padding:32px 26px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center}
+.verdict-box .label{font-size:12.5px;letter-spacing:1.6px;text-transform:uppercase;font-weight:600}
+.verdict-box .verdict{font-family:'Space Grotesk',Georgia,sans-serif;font-size:36px;font-weight:700}
+.verdict-box .note{font-size:13.5px;line-height:1.5}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-weight:600;color:var(--text-muted);font-size:12.5px;letter-spacing:.3px;text-transform:uppercase;padding:10px 12px;border-bottom:1px solid var(--border)}
+td{padding:13px 12px;border-bottom:1px solid var(--border)}
+tr:last-child td{border-bottom:none}
+.status-chip{font-size:12.5px;font-weight:600;padding:4px 10px;border-radius:999px;display:inline-block}
+.evid-row{cursor:pointer}
+.evid-row:hover{background:var(--surface-2)}
+.evid-row:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.evid-dim{display:flex;align-items:center;justify-content:space-between;gap:10px;font-weight:500}
+.chevron{width:16px;height:16px;flex:none;color:var(--text-faint);transition:transform .15s ease}
+.evid-row[aria-expanded="true"] .chevron{transform:rotate(90deg);color:var(--accent)}
+.evid-row[aria-expanded="true"]{background:var(--surface-2)}
+.detail-row td{padding:0;border-bottom:1px solid var(--border)}
+.detail-row[hidden]{display:none}
+.detail-panel{padding:2px 20px 22px;display:flex;flex-direction:column;gap:14px}
+.detail-summary{font-size:13.5px;color:var(--text-muted);line-height:1.55;padding-top:14px;max-width:72ch}
+.finding-list{display:flex;flex-direction:column;gap:10px}
+.finding-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.finding-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.finding-title{font-size:13.5px;font-weight:600;color:var(--text)}
+.finding-note{font-size:13px;color:var(--text-muted);line-height:1.55}
+.finding-agent{font-size:11.5px;color:var(--text-faint);font-style:italic}
+.severity-chip{font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:999px;white-space:nowrap;text-transform:uppercase;letter-spacing:.4px;flex:none}
+.severity-chip.minor{background:var(--warn-soft);color:var(--warn)}
+.severity-chip.critical{background:var(--crit-soft);color:var(--crit)}
+.severity-chip.blocking{background:var(--crit-soft);color:var(--crit)}
+.cov-table-wrap{overflow-x:auto}
+.cov-cell{text-align:center;font-variant-numeric:tabular-nums;font-weight:600;border-radius:8px}
+.cov-legend{display:flex;align-items:center;gap:10px;margin:18px 0 4px;font-size:12.5px;color:var(--text-muted)}
+.cov-ramp{display:flex;height:10px;width:160px;border-radius:5px;overflow:hidden}
+.foot-note{font-size:12.5px;color:var(--text-faint);margin-top:18px;line-height:1.5}
+@media (max-width:860px){
+  .kpi-row{grid-template-columns:1fr 1fr}
+  .grid-2{grid-template-columns:1fr}
+  .agent-grid{grid-template-columns:1fr 1fr}
+  .verdict-panel{grid-template-columns:1fr}
+}
+@media (max-width:520px){
+  .kpi-row{grid-template-columns:1fr}
+  .agent-grid{grid-template-columns:1fr}
+}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500..700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand"><span class="dot"></span>Quberam Intelligence</div>
+    <div class="tabs" role="tablist" aria-label="Sections">
+      <button class="tab" role="tab" id="tab-overview" aria-selected="true" aria-controls="panel-overview">Overview</button>
+      <button class="tab" role="tab" id="tab-agents" aria-selected="false" aria-controls="panel-agents">Agent Catalog</button>
+      <button class="tab" role="tab" id="tab-gonogo" aria-selected="false" aria-controls="panel-gonogo">Go/No-Go Report</button>
+      <button class="tab" role="tab" id="tab-coverage" aria-selected="false" aria-controls="panel-coverage">Coverage</button>
+    </div>
+    <div class="spacer"></div>
+    <div class="pill-live"><span class="dot"></span>10 agents running</div>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <section role="tabpanel" id="panel-overview" aria-labelledby="tab-overview">
+    <p class="eyebrow">Release Command Center</p>
+    <h1 class="page-title">Everything a release needs, in one place</h1>
+    <p class="page-sub">Sample walkthrough data below — this is a concept mockup of the product, not a connected environment.</p>
+
+    <div class="kpi-row">
+      <div class="kpi"><p class="label">Release readiness</p><p class="value good">91%</p></div>
+      <div class="kpi"><p class="label">Open findings</p><p class="value">7</p></div>
+      <div class="kpi"><p class="label">Agents active</p><p class="value">10 / 10</p></div>
+      <div class="kpi"><p class="label">Hours saved this sprint</p><p class="value good">62</p></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>Failures by root cause</h3>
+        <div class="donut-row">
+          <svg width="128" height="128" viewBox="0 0 128 128" role="img" aria-label="64 percent of failures are non-functional, 36 percent are functional defects">
+            <circle cx="64" cy="64" r="50" fill="none" stroke="var(--surface-2)" stroke-width="18"></circle>
+            <circle cx="64" cy="64" r="50" fill="none" stroke="var(--c-govern)" stroke-width="18" stroke-dasharray="201 314" stroke-linecap="butt" transform="rotate(-90 64 64)"></circle>
+            <circle cx="64" cy="64" r="50" fill="none" stroke="var(--c-exec)" stroke-width="18" stroke-dasharray="113 314" stroke-dashoffset="-201" stroke-linecap="butt" transform="rotate(-90 64 64)"></circle>
+          </svg>
+          <div class="donut-figures">
+            <div class="legend-item"><span class="legend-swatch" style="background:var(--c-govern)"></span>64% test-data / environment readiness</div>
+            <div class="legend-item"><span class="legend-swatch" style="background:var(--c-exec)"></span>36% real functional defects</div>
+          </div>
+        </div>
+        <p class="foot-note">Pattern observed across a production QA program — the insight the Release Manager Agent is built around.</p>
+      </div>
+
+      <div class="card">
+        <h3>Recent releases</h3>
+        <div class="release-list">
+          <div class="release-row"><div><p class="release-name">Installment Payments v2.3</p><p class="release-note">2 markets held back on data readiness</p></div><span class="badge cond">Conditional Go</span></div>
+          <div class="release-row"><div><p class="release-name">Tokenized Wallet Refresh</p><p class="release-note">Clean across all regions</p></div><span class="badge go">Go</span></div>
+          <div class="release-row"><div><p class="release-name">Fraud Rules Update 14.2</p><p class="release-note">Clean, performance within baseline</p></div><span class="badge go">Go</span></div>
+          <div class="release-row"><div><p class="release-name">Split Tender Rollout</p><p class="release-note">3 critical coverage gaps found</p></div><span class="badge nogo">No-Go</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section role="tabpanel" id="panel-agents" aria-labelledby="tab-agents" hidden>
+    <p class="eyebrow">Agent Catalog</p>
+    <h1 class="page-title">Ten specialist agents, four clusters</h1>
+    <p class="page-sub">Each agent runs continuously and feeds the Release Manager Agent's verdict. Select a card for detail.</p>
+    <div class="agent-grid" id="agent-grid"></div>
+  </section>
+
+  <section role="tabpanel" id="panel-gonogo" aria-labelledby="tab-gonogo" hidden>
+    <p class="eyebrow">Release Manager Agent</p>
+    <h1 class="page-title">Go/No-Go report</h1>
+    <p class="page-sub">Generated from live agent output — not a meeting where someone asks "did we test X?" and nobody is sure. Click any evidence dimension below to see the findings and root cause behind its score.</p>
+    <div class="gn-controls">
+      <label for="release-select">Release</label>
+      <select id="release-select"></select>
+    </div>
+    <div class="verdict-panel">
+      <div class="verdict-box" id="verdict-box">
+        <p class="label" id="verdict-label">Recommendation</p>
+        <p class="verdict" id="verdict-text">—</p>
+        <p class="note" id="verdict-note">—</p>
+      </div>
+      <div class="card" style="padding:0;border:1px solid var(--border)">
+        <table>
+          <thead><tr><th style="width:38%">Evidence dimension</th><th style="width:18%">Score</th><th style="width:44%">Status</th></tr></thead>
+          <tbody id="evidence-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section role="tabpanel" id="panel-coverage" aria-labelledby="tab-coverage" hidden>
+    <p class="eyebrow">Coverage Intelligence Agent</p>
+    <h1 class="page-title">Feature × market coverage</h1>
+    <p class="page-sub">Darker cells mean higher confirmed coverage; the agent ranks the lightest cells as the next place to spend test effort.</p>
+    <div class="card cov-table-wrap">
+      <table id="cov-table"></table>
+    </div>
+    <div class="cov-legend">
+      <span>Lower coverage</span>
+      <span class="cov-ramp" id="cov-ramp"></span>
+      <span>Higher coverage</span>
+    </div>
+  </section>
+
+</main>
+
+<script>
+(function(){
+  "use strict";
+
+  var clusters = {
+    plan:   {name:"Plan & Generate", varName:"--c-plan"},
+    exec:   {name:"Execute & Analyze", varName:"--c-exec"},
+    govern: {name:"Govern & Assure", varName:"--c-govern"},
+    decide: {name:"Decide & Ship", varName:"--c-decide"}
+  };
+
+  var agents = [
+    {name:"Test Plan Agent", cluster:"plan", desc:"Drafts scope, entry/exit criteria, and a risk-ranked approach straight from specs.", run:"4m ago"},
+    {name:"Test Generation Agent", cluster:"plan", desc:"Generates functional, boundary, negative, and regression test cases.", run:"12m ago"},
+    {name:"Functional Failure Analysis Agent", cluster:"exec", desc:"Separates root cause from cascade symptoms on every failed run.", run:"2m ago"},
+    {name:"Performance Agent", cluster:"exec", desc:"Tracks latency and throughput regressions release over release.", run:"18m ago"},
+    {name:"Log Analysis Agent", cluster:"exec", desc:"Correlates service errors to the change that caused them.", run:"9m ago"},
+    {name:"Code Review & Adhoc Testing Agent", cluster:"exec", desc:"Diff-aware review plus exploratory tests on uncommitted changes.", run:"31m ago"},
+    {name:"Compliance Agent", cluster:"govern", desc:"Maps test coverage to regulatory and standards requirements.", run:"1h ago"},
+    {name:"Coverage Intelligence Agent", cluster:"govern", desc:"Tracks feature × market coverage and ranks blind spots by risk.", run:"6m ago"},
+    {name:"Test Data & Environment Readiness Agent", cluster:"govern", desc:"Flags missing data and broken environments before a run wastes time.", run:"14m ago"},
+    {name:"Release Manager Agent", cluster:"decide", desc:"Synthesizes every agent's output into one Go/No-Go verdict.", run:"1m ago"}
+  ];
+
+  var agentGrid = document.getElementById("agent-grid");
+  agents.forEach(function(a){
+    var c = clusters[a.cluster];
+    var card = document.createElement("div");
+    card.className = "agent-card";
+    card.tabIndex = 0;
+    card.innerHTML =
+      '<span class="cluster-chip" style="background:var(' + c.varName + '-soft);color:var(' + c.varName + ')">' + c.name + '</span>' +
+      '<h4>' + a.name + '</h4>' +
+      '<p class="agent-desc">' + a.desc + '</p>' +
+      '<div class="agent-meta"><span class="status-dot"><span class="dot"></span>Active</span><span>Last run ' + a.run + '</span></div>';
+    agentGrid.appendChild(card);
+  });
+
+  var releases = {
+    "installment": {
+      label: "Installment Payments v2.3",
+      verdict: "cond", verdictText: "CONDITIONAL GO",
+      note: "Ship behind a flag; 2 markets held back pending a data-readiness fix.",
+      rows: [
+        { dim:"Functional coverage", score:"94%", status:"good", statusText:"On target",
+          summary:"2 of 134 scenarios need a look; neither blocks this release.",
+          findings:[
+            {title:"Retry-after-decline flow (EMEA, Mastercard)", severity:"minor", agent:"Functional Failure Analysis Agent",
+              note:"The challenge-URL callback times out when the issuer's OTP step runs past 8 seconds, so the flow reads as failed even though the network goes on to approve it. Root cause: a client-side timeout set below the issuer's own SLA — not a payment defect."},
+            {title:"Partial refund after split shipment", severity:"minor", agent:"Functional Failure Analysis Agent",
+              note:"The refund allocator double-counts the shipping line when two shipments settle on the same day. Root cause: a real logic bug in the split-shipment refund path, scheduled for this sprint."}
+          ]},
+        { dim:"Performance vs. baseline", score:"98%", status:"good", statusText:"No regression",
+          summary:"No regression beyond the 100ms SLA; one endpoint trending up to watch next release.",
+          findings:[
+            {title:"Capture endpoint, APAC region", severity:"minor", agent:"Performance Agent",
+              note:"P95 latency is up 60ms versus last release under peak load. Root cause: a new dynamic-descriptor lookup added this sprint that hasn't been optimized yet — still well within SLA."}
+          ]},
+        { dim:"Compliance mapping", score:"100%", status:"good", statusText:"Fully mapped",
+          summary:"All 14 in-scope requirements — card-brand mandates, data-residency, PCI references — are mapped to passing evidence. Nothing open.",
+          findings:[]},
+        { dim:"Test data & environment readiness", score:"71%", status:"warn", statusText:"2 markets blocked",
+          summary:"2 markets held back until data and environment issues are fixed — this is readiness risk, not code risk.",
+          findings:[
+            {title:"Brazil sandbox, encrypted-wallet source", severity:"blocking", agent:"Test Data & Environment Readiness Agent",
+              note:"The processor's test environment resets stored-credential tokens nightly, so CIT-then-MIT chains fail because the token used at setup no longer exists at capture. Root cause: an environment reset conflict, not application code."},
+            {title:"Singapore, multi-currency CIT", severity:"blocking", agent:"Test Data & Environment Readiness Agent",
+              note:"Reference test amounts for SGD predate a currency-rounding change, so captures mismatch expected totals by fractions of a cent. Root cause: stale test data, not a defect."}
+          ]}
+      ]
+    },
+    "wallet": {
+      label: "Tokenized Wallet Refresh",
+      verdict: "go", verdictText: "GO",
+      note: "Clean across all evidence dimensions and all regions.",
+      rows: [
+        { dim:"Functional coverage", score:"99%", status:"good", statusText:"On target",
+          summary:"1 cosmetic scenario logged — retry-button copy reads “Try again” instead of the approved “Retry payment”. No functional impact.",
+          findings:[]},
+        { dim:"Performance vs. baseline", score:"101%", status:"good", statusText:"Improved vs. baseline",
+          summary:"Capture latency improved 4% versus baseline after the token-cache change that shipped last sprint. No regressions anywhere in the matrix.",
+          findings:[]},
+        { dim:"Compliance mapping", score:"100%", status:"good", statusText:"Fully mapped",
+          summary:"Fully mapped; no open items this cycle.",
+          findings:[]},
+        { dim:"Test data & environment readiness", score:"97%", status:"good", statusText:"Ready",
+          summary:"All regions green. One low-priority sandbox credential is due to rotate next week — flagged, not blocking.",
+          findings:[]}
+      ]
+    },
+    "fraud": {
+      label: "Fraud Rules Update 14.2",
+      verdict: "go", verdictText: "GO",
+      note: "Within baseline on every dimension tracked.",
+      rows: [
+        { dim:"Functional coverage", score:"96%", status:"good", statusText:"On target",
+          summary:"1 scenario to watch; within approved tolerance and not release-blocking.",
+          findings:[
+            {title:"New velocity rule, Canada", severity:"minor", agent:"Functional Failure Analysis Agent",
+              note:"False-positive rate is 0.3 points above target across the first 1,000 simulated transactions. Root cause: the new rule's threshold is slightly conservative — still inside the approved tolerance band, with a tuning pass planned."}
+          ]},
+        { dim:"Performance vs. baseline", score:"99%", status:"good", statusText:"No regression",
+          summary:"No regression; rule-evaluation latency is unchanged release over release.",
+          findings:[]},
+        { dim:"Compliance mapping", score:"100%", status:"good", statusText:"Fully mapped",
+          summary:"Mapped, including the updated model-governance documentation this rule set required.",
+          findings:[]},
+        { dim:"Test data & environment readiness", score:"93%", status:"good", statusText:"Ready",
+          summary:"One synthetic fraud-pattern dataset is two weeks stale; a refresh is scheduled and this does not block the release.",
+          findings:[]}
+      ]
+    },
+    "split": {
+      label: "Split Tender Rollout",
+      verdict: "nogo", verdictText: "NO-GO",
+      note: "3 critical coverage gaps in split-payment edge cases; hold for next cycle.",
+      rows: [
+        { dim:"Functional coverage", score:"58%", status:"crit", statusText:"3 critical gaps open",
+          summary:"3 of 7 split-tender scenarios fail — and all three are real functional defects, not environment noise.",
+          findings:[
+            {title:"Split-tender + partial authorization", severity:"critical", agent:"Functional Failure Analysis Agent",
+              note:"When the first payment method only partially authorizes, the second method is charged the full remaining balance instead of its share. Root cause: a real defect in the split-settlement allocator."},
+            {title:"Split-tender refund reversal", severity:"critical", agent:"Functional Failure Analysis Agent",
+              note:"Reversing one leg of a split-tender transaction doesn't reverse the linked leg, leaving a dangling authorization open. Root cause: a missing linkage in the reversal handler — a real defect."},
+            {title:"Gift card + credit split", severity:"critical", agent:"Functional Failure Analysis Agent",
+              note:"The gift-card balance isn't restored when the paired credit leg is declined. Root cause: the balance update isn't rolled back on decline — a real defect, not a data issue."}
+          ]},
+        { dim:"Performance vs. baseline", score:"90%", status:"good", statusText:"No regression",
+          summary:"No regression; well within baseline despite the added split-settlement logic.",
+          findings:[]},
+        { dim:"Compliance mapping", score:"82%", status:"warn", statusText:"2 requirements unmapped",
+          summary:"2 disclosure requirements are not yet satisfied by the current flow — an implementation gap, not a code defect.",
+          findings:[
+            {title:"Gift-card balance disclosure (NY, MA)", severity:"blocking", agent:"Compliance Agent",
+              note:"The new split-tender flow doesn't surface the required balance-disclosure text in New York or Massachusetts. Root cause: the disclosure requirement was added after the original UI spec — an implementation gap, not a defect."}
+          ]},
+        { dim:"Test data & environment readiness", score:"64%", status:"warn", statusText:"1 market blocked",
+          summary:"1 market held back because its sandbox can't yet exercise the new combination.",
+          findings:[
+            {title:"EU gift-card sandbox", severity:"blocking", agent:"Test Data & Environment Readiness Agent",
+              note:"The EU gift-card test environment doesn't support split-tender combinations yet, so none of this release's new scenarios can be exercised there. Root cause: environment capability gap, not application code."}
+          ]}
+      ]
+    }
+  };
+
+  var verdictMeta = {
+    go:   {bg:"good-soft", fg:"good"},
+    cond: {bg:"warn-soft", fg:"warn"},
+    nogo: {bg:"crit-soft", fg:"crit"}
+  };
+
+  var select = document.getElementById("release-select");
+  Object.keys(releases).forEach(function(key){
+    var opt = document.createElement("option");
+    opt.value = key;
+    opt.textContent = releases[key].label;
+    select.appendChild(opt);
+  });
+
+  function renderRelease(key){
+    var r = releases[key];
+    var meta = verdictMeta[r.verdict];
+    var box = document.getElementById("verdict-box");
+    box.style.background = "var(--" + meta.bg + ")";
+    document.getElementById("verdict-label").style.color = "var(--" + meta.fg + ")";
+    var vt = document.getElementById("verdict-text");
+    vt.textContent = r.verdictText;
+    vt.style.color = "var(--" + meta.fg + ")";
+    var note = document.getElementById("verdict-note");
+    note.textContent = r.note;
+    note.style.color = "var(--text-muted)";
+
+    var body = document.getElementById("evidence-body");
+    body.innerHTML = "";
+    r.rows.forEach(function(row, i){
+      var statusMeta = verdictMeta[row.status === "good" ? "go" : (row.status === "warn" ? "cond" : "nogo")];
+      var detailId = "detail-" + key + "-" + i;
+
+      var tr = document.createElement("tr");
+      tr.className = "evid-row";
+      tr.tabIndex = 0;
+      tr.setAttribute("role", "button");
+      tr.setAttribute("aria-expanded", "false");
+      tr.setAttribute("aria-controls", detailId);
+      tr.innerHTML =
+        "<td><div class=\"evid-dim\"><span>" + row.dim + "</span>" +
+          "<svg class=\"chevron\" viewBox=\"0 0 16 16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M6 4l5 4-5 4\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>" +
+        "</div></td>" +
+        "<td style=\"font-weight:600;color:var(--" + statusMeta.fg + ")\">" + row.score + "</td>" +
+        "<td><span class=\"status-chip\" style=\"background:var(--" + statusMeta.bg + ");color:var(--" + statusMeta.fg + ")\">" + row.statusText + "</span></td>";
+
+      var findingsHtml = (row.findings || []).map(function(f){
+        return "<div class=\"finding-card\">" +
+          "<div class=\"finding-top\"><p class=\"finding-title\">" + f.title + "</p><span class=\"severity-chip " + f.severity + "\">" + f.severity + "</span></div>" +
+          "<p class=\"finding-note\">" + f.note + "</p>" +
+          "<p class=\"finding-agent\">Flagged by " + f.agent + "</p>" +
+          "</div>";
+      }).join("");
+
+      var detailTr = document.createElement("tr");
+      detailTr.className = "detail-row";
+      detailTr.id = detailId;
+      detailTr.hidden = true;
+      detailTr.innerHTML =
+        "<td colspan=\"3\"><div class=\"detail-panel\">" +
+          "<p class=\"detail-summary\">" + row.summary + "</p>" +
+          (findingsHtml ? "<div class=\"finding-list\">" + findingsHtml + "</div>" : "") +
+        "</div></td>";
+
+      function toggle(){
+        var open = tr.getAttribute("aria-expanded") === "true";
+        tr.setAttribute("aria-expanded", open ? "false" : "true");
+        detailTr.hidden = open;
+      }
+      tr.addEventListener("click", toggle);
+      tr.addEventListener("keydown", function(e){
+        if (e.key === "Enter" || e.key === " "){ e.preventDefault(); toggle(); }
+      });
+
+      body.appendChild(tr);
+      body.appendChild(detailTr);
+    });
+  }
+
+  select.addEventListener("change", function(){ renderRelease(select.value); });
+  select.value = "installment";
+  renderRelease("installment");
+
+  var covFeatures = ["Installment Payments", "3D Secure", "Network Tokenization", "Partial Authorization", "Split Tender", "Compliance Evidence"];
+  var covRegions = ["N. America", "EMEA", "APAC", "LATAM"];
+  var covData = [
+    [96, 71, 88, 92],
+    [99, 95, 90, 85],
+    [93, 89, 96, 78],
+    [88, 92, 85, 94],
+    [76, 68, 90, 82],
+    [100, 100, 97, 95]
+  ];
+
+  function covColor(v){
+    // sequential ramp on the accent hue: low value -> soft tint, high value -> saturated + white text
+    var t = Math.max(0, Math.min(1, (v - 60) / 40));
+    var light = 92 - t * 52; // 92% down to 40% lightness
+    return {
+      bg: "hsl(174, 55%, " + light + "%)",
+      fg: t > 0.55 ? "#06211D" : "#0B2E29"
+    };
+  }
+
+  var covTable = document.getElementById("cov-table");
+  var thead = document.createElement("thead");
+  var headRow = document.createElement("tr");
+  headRow.innerHTML = "<th>Feature</th>" + covRegions.map(function(r){ return "<th style=\"text-align:center\">" + r + "</th>"; }).join("");
+  thead.appendChild(headRow);
+  covTable.appendChild(thead);
+  var tbody = document.createElement("tbody");
+  covFeatures.forEach(function(f, i){
+    var tr = document.createElement("tr");
+    var cells = "<td>" + f + "</td>";
+    covData[i].forEach(function(v){
+      var c = covColor(v);
+      cells += "<td class=\"cov-cell\" style=\"background:" + c.bg + ";color:" + c.fg + "\">" + v + "%</td>";
+    });
+    tr.innerHTML = cells;
+    tbody.appendChild(tr);
+  });
+  covTable.appendChild(tbody);
+
+  var ramp = document.getElementById("cov-ramp");
+  var stops = [60,70,80,90,100];
+  stops.forEach(function(v){
+    var c = covColor(v);
+    var seg = document.createElement("span");
+    seg.style.flex = "1";
+    seg.style.background = c.bg;
+    ramp.appendChild(seg);
+  });
+
+  var tabs = document.querySelectorAll(".tab");
+  tabs.forEach(function(tab){
+    tab.addEventListener("click", function(){
+      tabs.forEach(function(t){ t.setAttribute("aria-selected", "false"); });
+      tab.setAttribute("aria-selected", "true");
+      document.querySelectorAll("section[role=tabpanel]").forEach(function(p){ p.hidden = true; });
+      document.getElementById(tab.getAttribute("aria-controls")).hidden = false;
+    });
+  });
+})();
+</script>
+
+</body></html>
