@@ -142,6 +142,58 @@ tr:last-child td{border-bottom:none}
 .cov-legend{display:flex;align-items:center;gap:10px;margin:18px 0 4px;font-size:12.5px;color:var(--text-muted)}
 .cov-ramp{display:flex;height:10px;width:160px;border-radius:5px;overflow:hidden}
 .foot-note{font-size:12.5px;color:var(--text-faint);margin-top:18px;line-height:1.5}
+.arch-section{margin-bottom:28px}
+.arch-section > h2{font-size:21px;margin-bottom:6px}
+.arch-section > .lead{color:var(--text-muted);font-size:14.5px;line-height:1.55;max-width:760px;margin-bottom:16px}
+.vision{background:var(--accent-soft);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:14px;padding:22px 24px;font-family:'Space Grotesk',Georgia,sans-serif;font-size:19px;line-height:1.45;color:var(--text);margin-bottom:28px}
+.principles{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.principle{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 20px;box-shadow:var(--shadow)}
+.principle .num{font-family:'Space Grotesk',Georgia,sans-serif;font-weight:700;color:var(--accent-ink);font-size:13px;letter-spacing:1px}
+.principle h4{font-size:15.5px;margin:6px 0 6px}
+.principle p{font-size:13.5px;color:var(--text-muted);line-height:1.5}
+.arch-stack{display:flex;flex-direction:column;align-items:stretch;gap:0}
+.arch-layer{border:1px solid var(--border);border-radius:16px;padding:18px;background:var(--surface);box-shadow:var(--shadow)}
+.arch-layer.plane{background:var(--accent-soft);border:2px solid var(--accent)}
+.arch-layer .layer-title{font-weight:600;font-size:15px;margin-bottom:12px}
+.arch-layer .layer-title span{font-weight:400;color:var(--text-muted);font-size:13.5px}
+.arch-layer.single{text-align:center}
+.arch-layer.single .layer-title{margin-bottom:4px}
+.arch-layer.single p{font-size:13.5px;color:var(--text-muted)}
+.arch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.arch-box{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 14px;text-align:center}
+.arch-box strong{display:block;font-size:14px;font-weight:600}
+.arch-box span{display:block;font-size:12.5px;color:var(--text-muted);margin-top:3px}
+.arch-arrow{display:flex;justify-content:center;padding:6px 0;color:var(--text-faint)}
+.arch-arrow svg{width:18px;height:22px}
+.arch-loop{margin-top:14px;font-size:13px;color:var(--text-muted);display:flex;align-items:center;gap:8px;justify-content:center}
+.arch-loop .dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.table-wrap{overflow-x:auto}
+.table-wrap table td,.table-wrap table th{vertical-align:top}
+.table-wrap td{font-size:13.5px;line-height:1.5}
+.table-wrap td:first-child{font-weight:600;white-space:nowrap}
+.steps{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;counter-reset:step}
+.step{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;box-shadow:var(--shadow)}
+.step .n{width:26px;height:26px;border-radius:50%;background:var(--accent-soft);color:var(--accent-ink);font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;margin-bottom:8px}
+.step strong{display:block;font-size:13.5px;margin-bottom:4px}
+.step p{font-size:12.5px;color:var(--text-muted);line-height:1.45}
+.ladder{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.rung{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px}
+.rung h4{font-size:15.5px;margin:0}
+.rung .what{font-size:13.5px;color:var(--text-muted);line-height:1.5}
+.rung .rule{font-size:12.5px;line-height:1.45;padding:8px 10px;border-radius:9px}
+.rung .rule.up{background:var(--good-soft);color:var(--text)}
+.rung .rule.down{background:var(--crit-soft);color:var(--text)}
+.rung .rule b{display:block;font-size:11px;letter-spacing:.6px;text-transform:uppercase;margin-bottom:2px}
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.phase{background:var(--surface);border:1px solid var(--border);border-top:4px solid var(--accent);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow)}
+.phase .when{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--accent-ink);font-weight:600}
+.phase h4{font-size:15.5px;margin:4px 0 10px}
+.phase ul{margin:0;padding-left:18px;font-size:13px;color:var(--text-muted);line-height:1.55}
+.metric-list{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.metric{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;font-size:13.5px;line-height:1.45}
+@media (max-width:1060px){.steps{grid-template-columns:repeat(4,1fr)}}
+@media (max-width:860px){.principles,.arch-grid,.metric-list{grid-template-columns:1fr 1fr}.ladder,.roadmap{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.principles,.arch-grid,.metric-list,.ladder,.roadmap,.steps{grid-template-columns:1fr}}
 @media (max-width:860px){
   .kpi-row{grid-template-columns:1fr 1fr}
   .grid-2{grid-template-columns:1fr}
@@ -163,6 +215,7 @@ tr:last-child td{border-bottom:none}
       <button class="tab" role="tab" id="tab-agents" aria-selected="false" aria-controls="panel-agents">Agent Catalog</button>
       <button class="tab" role="tab" id="tab-gonogo" aria-selected="false" aria-controls="panel-gonogo">Go/No-Go Report</button>
       <button class="tab" role="tab" id="tab-coverage" aria-selected="false" aria-controls="panel-coverage">Coverage</button>
+      <button class="tab" role="tab" id="tab-architecture" aria-selected="false" aria-controls="panel-architecture">Assurance Architecture</button>
     </div>
     <div class="spacer"></div>
     <div class="pill-live"><span class="dot"></span>10 agents running</div>
@@ -253,6 +306,136 @@ tr:last-child td{border-bottom:none}
       <span>Lower coverage</span>
       <span class="cov-ramp" id="cov-ramp"></span>
       <span>Higher coverage</span>
+    </div>
+  </section>
+
+  <section role="tabpanel" id="panel-architecture" aria-labelledby="tab-architecture" hidden>
+    <p class="eyebrow">Assurance Architecture</p>
+    <h1 class="page-title">Assurance as code, from the first commit to production</h1>
+    <p class="page-sub">How Quberam builds test automation and an independent AI control plane from scratch, across UI, API, data, LLM and agent layers.</p>
+
+    <div class="vision">Every capability is verified by automated controls that run as code, independent of the teams that build it, and the evidence for model risk and audit is produced as a byproduct.</div>
+
+    <div class="arch-section">
+      <h2>Guiding principles</h2>
+      <div class="principles">
+        <div class="principle"><p class="num">01</p><h4>Assurance as code</h4><p>Every control runs in the pipeline or on a schedule. Nothing depends on a review meeting.</p></div>
+        <div class="principle"><p class="num">02</p><h4>Independence</h4><p>Delivery teams own their functional tests; assurance owns the control plane that verifies them.</p></div>
+        <div class="principle"><p class="num">03</p><h4>Risk first</h4><p>Capabilities that touch customers’ money, advice or personal data get controls first and the strictest thresholds.</p></div>
+        <div class="principle"><p class="num">04</p><h4>Thin slice, then template</h4><p>Prove the full stack on one capability, then make it reusable so other teams adopt it in days.</p></div>
+        <div class="principle"><p class="num">05</p><h4>Evidence as a byproduct</h4><p>Every run logs results, versions and decisions, so audit never assembles anything by hand.</p></div>
+        <div class="principle"><p class="num">06</p><h4>Fast feedback</h4><p>Cheap deterministic checks on every commit; full model evals only when model behavior can change.</p></div>
+      </div>
+    </div>
+
+    <div class="arch-section">
+      <h2>The architecture</h2>
+      <p class="lead">Every test layer feeds one independent control plane. All results land in a single evidence store that drives release gates, dashboards and governance.</p>
+      <div class="arch-stack" role="img" aria-label="Architecture: delivery teams, shared test automation layers, the independent AI control plane, the evidence store, and its consumers, with incidents feeding back as new test cases">
+        <div class="arch-layer single"><p class="layer-title">Delivery teams build AI capabilities</p><p>They own unit, API and UI tests for what they build</p></div>
+        <div class="arch-arrow" aria-hidden="true"><svg viewBox="0 0 18 22" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 1v18M3 13l6 6 6-6"/></svg></div>
+        <div class="arch-layer">
+          <p class="layer-title">Test automation layers <span>· one shared framework, run in CI/CD</span></p>
+          <div class="arch-grid">
+            <div class="arch-box"><strong>Unit and contract</strong><span>Schema and contract checks</span></div>
+            <div class="arch-box"><strong>API and integration</strong><span>Go and TypeScript API tests</span></div>
+            <div class="arch-box"><strong>UI and end to end</strong><span>Playwright with page objects</span></div>
+            <div class="arch-box"><strong>Data and retrieval</strong><span>Recall at k, freshness, access</span></div>
+            <div class="arch-box"><strong>LLM output evals</strong><span>Golden sets, judges, metrics</span></div>
+            <div class="arch-box"><strong>Agents and tool calls</strong><span>Trace asserts, safe retries</span></div>
+          </div>
+        </div>
+        <div class="arch-arrow" aria-hidden="true"><svg viewBox="0 0 18 22" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 1v18M3 13l6 6 6-6"/></svg></div>
+        <div class="arch-layer plane">
+          <p class="layer-title">AI control plane <span>· owned by assurance, independent of delivery</span></p>
+          <div class="arch-grid">
+            <div class="arch-box"><strong>Model and output quality</strong><span>Drift, groundedness, bias</span></div>
+            <div class="arch-box"><strong>Cost and efficiency</strong><span>Tokens per resolved task</span></div>
+            <div class="arch-box"><strong>Architecture conformance</strong><span>Fitness functions in CI</span></div>
+            <div class="arch-box"><strong>Change and release</strong><span>Pinning, gates, rollback</span></div>
+            <div class="arch-box"><strong>Operational health</strong><span>SLOs, alerts, degradation</span></div>
+            <div class="arch-box"><strong>Governance evidence</strong><span>Inventory, audit, replay</span></div>
+          </div>
+        </div>
+        <div class="arch-arrow" aria-hidden="true"><svg viewBox="0 0 18 22" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 1v18M3 13l6 6 6-6"/></svg></div>
+        <div class="arch-layer single"><p class="layer-title">Evidence store</p><p>Every result, version and decision, logged with replay</p></div>
+        <div class="arch-arrow" aria-hidden="true"><svg viewBox="0 0 18 22" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 1v18M3 13l6 6 6-6"/></svg></div>
+        <div class="arch-grid">
+          <div class="arch-box"><strong>Release gates</strong><span>Block or promote each change</span></div>
+          <div class="arch-box"><strong>Dashboards and alerts</strong><span>Teams see drift and spend</span></div>
+          <div class="arch-box"><strong>Model risk and governance</strong><span>Self-serve audit evidence</span></div>
+        </div>
+        <p class="arch-loop"><span class="dot"></span>Every incident and escaped defect becomes a new test case</p>
+      </div>
+    </div>
+
+    <div class="arch-section">
+      <h2>Layer by layer</h2>
+      <p class="lead">What each layer proves, how it’s tested, who owns it, and when it runs.</p>
+      <div class="card table-wrap" style="padding:0">
+        <table>
+          <thead><tr><th>Layer</th><th>What it proves</th><th>How</th><th>Owner</th><th>When it runs</th></tr></thead>
+          <tbody>
+            <tr><td>Unit and contract</td><td>Each component and API honors its contract</td><td>Go, TypeScript and Rust unit tests; schema and contract tests</td><td>Delivery teams</td><td>Every commit</td></tr>
+            <tr><td>API and integration</td><td>Correct status codes, auth, idempotency and errors across services</td><td>API suites with mocked dependencies; Playwright request context</td><td>Delivery teams</td><td>Every commit and merge</td></tr>
+            <tr><td>UI and end to end</td><td>User journeys work; AI answers render; outages degrade gracefully</td><td>Playwright with page objects; LLM responses mocked for determinism</td><td>Delivery teams</td><td>Every merge; smoke on deploy</td></tr>
+            <tr><td>Data and retrieval</td><td>The right documents come back, current and permission-filtered</td><td>Labeled query sets; recall at k; freshness and access tests</td><td>Assurance</td><td>Retrieval or index change; scheduled</td></tr>
+            <tr><td>LLM output quality</td><td>Accurate, grounded, relevant answers that refuse correctly</td><td>Golden sets, calibrated judges, deterministic checks, repeated runs</td><td>Assurance</td><td>Prompt or model change; scheduled drift</td></tr>
+            <tr><td>Agents and tool calls</td><td>Right tool, arguments, order and outcome; no unauthorized action</td><td>Trace assertions; mocked tool failures; max-step and idempotency tests</td><td>Assurance</td><td>Agent or tool change</td></tr>
+            <tr><td>Safety and compliance</td><td>No prompt injection, data leakage or advice-boundary breach; disclosures fire</td><td>Adversarial and boundary test sets, 100% required</td><td>Assurance</td><td>Before every promotion</td></tr>
+            <tr><td>Performance and cost</td><td>Latency, throughput and tokens per resolved task within budget</td><td>Load tests; spend attribution checks</td><td>Assurance</td><td>Before promotion; trended</td></tr>
+            <tr><td>Architecture conformance</td><td>No guardrail bypass, isolation crossing or training on customer data</td><td>Fitness functions: code rules, policy-as-code, runtime trace checks</td><td>Assurance</td><td>Every build</td></tr>
+            <tr><td>Production monitoring</td><td>Quality, cost and health hold after release</td><td>Online evals on sampled traffic; SLO alerts; spend anomalies</td><td>Assurance and operations</td><td>Continuously</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="arch-section">
+      <h2>How a change reaches production</h2>
+      <div class="steps">
+        <div class="step"><p class="n">1</p><strong>Commit</strong><p>Unit, contract and fitness checks; failures block the merge</p></div>
+        <div class="step"><p class="n">2</p><strong>Merge</strong><p>API, UI and integration suites run</p></div>
+        <div class="step"><p class="n">3</p><strong>Behavior change</strong><p>Prompt, model or retrieval change triggers the full eval suite</p></div>
+        <div class="step"><p class="n">4</p><strong>Promotion gate</strong><p>Every blocking threshold must pass; evidence is stored</p></div>
+        <div class="step"><p class="n">5</p><strong>Canary</strong><p>A slice of traffic, compared live with the current version</p></div>
+        <div class="step"><p class="n">6</p><strong>Production</strong><p>Online evals, drift, cost and SLO monitors take over</p></div>
+        <div class="step"><p class="n">7</p><strong>Regression</strong><p>Automatic demotion or rollback; failing cases join the eval set</p></div>
+      </div>
+    </div>
+
+    <div class="arch-section">
+      <h2>The autonomy ladder</h2>
+      <p class="lead">Autonomy is earned with evidence and revoked automatically when the evidence changes.</p>
+      <div class="ladder">
+        <div class="rung"><h4>Shadow</h4><p class="what">Runs silently beside the current process; output isn’t shown.</p><p class="rule up"><b>To promote</b>Meets quality thresholds on real traffic over a sustained period</p></div>
+        <div class="rung"><h4>Assistive</h4><p class="what">Suggests; a person decides.</p><p class="rule up"><b>To promote</b>Thresholds held; safety checks at 100%; cost within budget</p><p class="rule down"><b>Demoted when</b>Any blocking threshold breaks</p></div>
+        <div class="rung"><h4>Supervised</h4><p class="what">Acts; a person approves high-risk actions.</p><p class="rule up"><b>To promote</b>Sustained performance plus model risk sign-off</p><p class="rule down"><b>Demoted when</b>Safety failure, drift past block, or an incident</p></div>
+        <div class="rung"><h4>Autonomous</h4><p class="what">Acts within set limits.</p><p class="rule down"><b>Demoted when</b>Same triggers, with instant rollback</p></div>
+      </div>
+    </div>
+
+    <div class="arch-section">
+      <h2>Roadmap</h2>
+      <div class="roadmap">
+        <div class="phase"><p class="when">Days 1–30</p><h4>Discover and baseline</h4><ul><li>Model and capability inventory</li><li>Risk map and ownership agreed</li><li>One pilot capability chosen</li><li>Quality, cost and latency baselined</li></ul></div>
+        <div class="phase"><p class="when">Days 31–60</p><h4>One thin slice</h4><ul><li>Golden set and eval harness</li><li>Thresholds and a CI gate</li><li>Version pinning, tracing, cost tags</li><li>First fitness function and dashboard</li></ul></div>
+        <div class="phase"><p class="when">Days 61–90</p><h4>Template and scale</h4><ul><li>Shared libraries and templates</li><li>More capabilities onboarded</li><li>Scheduled drift monitors</li><li>Audit logging with replay; first automatic evidence pack</li></ul></div>
+        <div class="phase"><p class="when">Months 4–6</p><h4>Close the loop</h4><ul><li>Automated promotion and demotion</li><li>Budget guardrails and anomaly alerts</li><li>Harness self-verification</li><li>SLOs, error budgets, runbooks</li></ul></div>
+      </div>
+    </div>
+
+    <div class="arch-section">
+      <h2>How we measure the practice</h2>
+      <div class="metric-list">
+        <div class="metric">Share of AI capabilities covered by the control plane</div>
+        <div class="metric">Escaped defects and incidents reaching customers</div>
+        <div class="metric">Time to detect drift, and time to roll back</div>
+        <div class="metric">Share of governance evidence generated automatically</div>
+        <div class="metric">Gate run time and flaky-check rate</div>
+        <div class="metric">Spend versus budget per capability</div>
+      </div>
+      <p class="foot-note">Concept architecture for the Quberam Intelligence prototype.</p>
     </div>
   </section>
 
